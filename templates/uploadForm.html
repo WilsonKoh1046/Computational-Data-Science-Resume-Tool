@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div>
+        <h2>Input: </h2>
+      <form action="/" method="post" class="form" role="form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Job Posting</label>
+            <br/>
+          <input name="job_posting" type="file" />
+        </div>
+          <div class="form-group">
+              <label>Resumes</label>
+              <br/>
+              <input name="resumes" directory="" webkitdirectory="" type="file" multiple="true" accept=".docx, .doc, .pdf, .txt" />
+          </div>
+        <input type="submit" class="btn btn-primary" value="Submit" />
+      </form>
+    </div>
+{% endblock %}

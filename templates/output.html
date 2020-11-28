@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Results:</h2>
+        {% for item in output %}
+            <ul>
+                <li><a href={{ output[item] }} target="_blank" rel="noopener noreferrer">{{ item }}</a></li>
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}
