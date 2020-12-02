@@ -5,7 +5,9 @@
         <h2>Results:</h2>
         {% for item in output %}
             <ul>
-                <li><a href={{ output[item] }} target="_blank" rel="noopener noreferrer">{{ item }}</a></li>
+                <li>
+                    <a href={{ item }} target="_blank" rel="noopener noreferrer">{{ item[19:] }}</a> : <p>{{ output[item] }}</p>
+                </li>
             </ul>
         {% endfor %}
     </div>

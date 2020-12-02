@@ -15,6 +15,7 @@ bs4 = "*"
 pandas = "*"
 flask-wtf = "*"
 flask-bootstrap = "*"
+nltk = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,6 +1,6 @@
 import os
 from flask import Flask, jsonify, request, json, render_template, redirect, send_from_directory
-# from lib.bruh import Bruh
+from lib.bruh import Bruh
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -47,15 +47,20 @@ def analyse():
                 resume_destination = "/".join([target, "resume_dir"]) + "/" + resume_fileName
                 resume.save(resume_destination)
 
+    bruh = Bruh('/'.join([target, RESUME_DIR]), '/'.join(['uploads', JOB_POSTING_DIR]))
+    output = bruh.run_bert('roberta-large-nli-stsb-mean-tokens')
+    print(output)
+
     # TODO
     # run Bert function here to start the job
     # output is in dictionary format as shown below, but with filename and respective scores
     # the corresponding file paths will be searched inside the resume_dir and the final result will be constructed
-
+    '''
     output = {
-        # filepath: score
+        'Lecture_-_Classification.pdf': 10,
+        '1b._big_data_lec1.pdf': 20
     }
-
+    '''
     return render_template('output.html', output=output)
 
 # delete all uploaded files after the job, will be integrated into main function later
