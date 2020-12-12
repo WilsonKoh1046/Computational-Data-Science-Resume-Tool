@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="container top_positions_output">
+        <script>
+            async function getPlotImage() {
+                const response = await fetch('/image/plot');
+                if (response.status === 200) {
+                    return response.body;
+                }
+            }
+            (async () => {
+                let newImage = new Image();
+                newImage.src = await getPlotImage();
+                document.getElementById("top_positions_output").appendChild(newImage);
+            })();
+        </script>
+        <h2>Results:</h2>
+        <ul class="list-group">
+            {% for item in output %}
+                {% for key, value in item.items() %}
+                    <li class="list-group-item">
+                        <h3><a target="_blank" rel="noopener noreferrer">{{ key }}</a></h3>
+                        {% for nested_key, nested_value in value.items() %}
+                            <p>{{ nested_key }}: {{ nested_value }}</p>
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul
+    </div>
+{% endblock %}
+
+<!--
+data = [
+    {
+        "resume1": {
+            "job_desc":   ,
+            "job_title":   ,
+            "vector":
+        }
+    }
+]
+-->

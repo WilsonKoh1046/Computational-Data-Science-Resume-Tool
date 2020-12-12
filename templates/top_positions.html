@@ -3,18 +3,12 @@
 {% block content %}
     <div class="container">
         <br/>
-      <form action="/" method="post" class="form" role="form" enctype="multipart/form-data">
+        <h2>Top Positions For This Resume:</h2>
+      <form action="/top-positions" method="post" class="form" role="form" enctype="multipart/form-data">
           <div class="row">
               <div class="col">
                   <div class="form-group">
-                    <label style="font-size: 2em">Job Posting:</label>
-                    <br/>
-                    <input name="job_posting" type="file" />
-                  </div>
-              </div>
-              <div class="col">
-                  <div class="form-group">
-                    <label style="font-size: 2em">Resumes:</label>
+                    <label style="font-size: 2em">Resume:</label>
                     <br/>
                     <input name="resumes" directory="" webkitdirectory="" type="file" multiple="true" accept=".docx, .doc, .pdf, .txt" />
                   </div>

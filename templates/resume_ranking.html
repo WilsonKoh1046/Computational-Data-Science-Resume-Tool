@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="container">
+        <br/>
+        <h2>Resume Ranking: </h2>
+      <form action="/resume-ranking" method="post" class="form" role="form" enctype="multipart/form-data">
+          <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                    <label style="font-size: 2em">Job Posting:</label>
+                    <br/>
+                    <input name="job_posting" type="file" />
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="form-group">
+                    <label style="font-size: 2em">Resumes:</label>
+                    <br/>
+                    <input name="resumes" directory="" webkitdirectory="" type="file" multiple="true" accept=".docx, .doc, .pdf, .txt" />
+                  </div>
+              </div>
+          </div>
+          <br/>
+          <input type="submit" class="btn btn-primary" style="margin-left: 300px; font-size: 1.5em" value="Start Analysis" />
+      </form>
+    </div>
+{% endblock %}

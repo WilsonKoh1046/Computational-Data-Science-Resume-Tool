@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, request, json, render_template, redirect, send_from_directory
+from flask import Flask, jsonify, request, json, render_template, redirect, send_from_directory, url_for
 from lib.bruh import Bruh
 from werkzeug.utils import secure_filename
 
@@ -17,11 +17,19 @@ app.config['UPLOAD_PATH'] = UPLOAD_FOLDER
 def download(filename):
     return send_from_directory(directory="uploads/resume_dir", filename=filename)
 
+@app.route('/image/plot/')
+def getPlotImage():
+    return send_from_directory(directory="image/plot", filename="result.png")
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 # main function, which have the upload section and will later redirect to output section
-@app.route('/', methods=['GET', 'POST'])
-def analyse():
+@app.route('/resume-ranking', methods=['GET', 'POST'])
+def resume_ranking():
     if request.method == 'GET':
-        return render_template('uploadForm.html')
+        return render_template('resume_ranking.html')
 
     # create the necessary paths if not exist
     target = UPLOAD_FOLDER
@@ -61,7 +69,36 @@ def analyse():
         '1b._big_data_lec1.pdf': 20
     }
     '''
-    return render_template('output.html', output=output)
+    return render_template('resume_ranking_output.html', output=output)
+
+@app.route('/top-positions', methods=['GET', 'POST'])
+def top_positions():
+    if request.method == 'GET':
+        return render_template('top_positions.html')
+
+    target = UPLOAD_FOLDER
+    if not os.path.isdir('/'.join([target, 'top_positions_resume'])):
+        os.mkdir('/'.join([target, 'top_positions_resume']))
+
+    if request.files['resumes']:
+        for resume in request.files.getlist('resumes'):
+            resume_fileName = resume.filename
+            if ".DS_Store" not in resume_fileName:
+                resume_fileName = secure_filename(resume_fileName)
+                resume_destination = "/".join([target, "top_positions_resume"]) + "/" + resume_fileName
+                resume.save(resume_destination)
+
+    output = [
+        {
+            "resume_name": {
+                "job_desc": "Best job ever, just code whole day",
+                "job_title": "Software Engineer",
+                "vector": [1, 2, 3]
+            }
+        }
+    ]
+
+    return render_template('top_positions_output.html', output=output)
 
 # delete all uploaded files after the job, will be integrated into main function later
 @app.route('/destroy', methods=['DELETE'])
@@ -78,6 +115,11 @@ def destroy():
         for file in os.listdir(resume_dir):
             os.remove('/'.join(['uploads', RESUME_DIR, file]))
         os.rmdir(resume_dir)
+
+    if os.path.exists('/'.join(['uploads', 'top_positions_resume'])):
+        for file in os.listdir('/'.join(['uploads', 'top_positions_resume'])):
+            os.remove('/'.join(['uploads', 'top_positions_resume', file]))
+        os.rmdir('/'.join(['uploads', 'top_positions_resume']))
 
     return jsonify({"Message": "Successfully deletes all the uploaded files for current job"})
 
